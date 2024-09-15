@@ -11,6 +11,14 @@ export default function TaskComponent(props: ListProps) {
   function handleInputChange(event: any) {
     setListname(event.target.value);
   }
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      db.todoLists.add({ name: listName });
+      // toast(listName + " added");
+      console.log(props.lists);
+      setListname("");
+    }
+  };
 
   return (
     <div className="h-screen hide-scrollbar  outline outline-zinc-100 w-[500px] overflow-y-scroll   box-border p-6 ">
@@ -21,6 +29,7 @@ export default function TaskComponent(props: ListProps) {
           id="name"
           placeholder="Add List"
           value={listName}
+          onKeyDown={handleKeyPress}
         />
         <Button
           onClick={() => {
