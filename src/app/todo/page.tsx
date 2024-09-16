@@ -29,7 +29,8 @@ export default function Page() {
           console.log(selectedList);
         }}
         slectedList={selectedList}
-        lists={lists!}
+        lists={lists}
+        tasks={tasks}
       />
       <TaskComponent slectedList={selectedList} tasks={tasks!} lists={lists!} />
     </div>

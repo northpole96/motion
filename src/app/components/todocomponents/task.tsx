@@ -153,7 +153,7 @@ export default function TaskComponent(props: TaskProps) {
       </div>
       <div className="flex flex-col gap-2  w-[600px] pt-2">
         {props.tasks.filter(filter).map((task, index) => (
-          <div className="h-10 border rounded-md">
+          <div className="h-10 border rounded-md " onClick={()=>db.deleteTask(task.id!)}>
             <p className="px-4 py-2 text-sm">{task.name}</p>
           </div>
         ))}

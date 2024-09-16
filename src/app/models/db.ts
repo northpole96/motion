@@ -1,54 +1,53 @@
 // db.ts
-import Dexie, { Table, type EntityTable } from 'dexie';
+import Dexie, { Table, type EntityTable } from "dexie";
 import { populate } from "./populate";
 
 export interface Task {
   id?: number;
   name: string;
-  todoListId:number;
-  dateAdded?:Date
-
+  todoListId: number;
+  dateAdded?: Date;
 }
-export interface List{
-id?:number;
-name:string;
-}
-
-export class TodoDB extends Dexie{
-    todoTasks!:Table<Task,number>
-    todoLists!:Table<List,number>
-
-    constructor() { 
-        super('TodoDB');
-        this.version(1).stores({
-          todoLists: '++id',
-          todoTasks: '++id, todoListId'
-        });
-      }
-
-      deleteList(todoListId: number) {
-        return this.transaction('rw', this.todoTasks, this.todoLists, () => {
-          this.todoTasks.where({ todoListId }).delete();
-          this.todoLists.delete(todoListId);
-        });
-      }
-
+export interface List {
+  id?: number;
+  name: string;
 }
 
+export class TodoDB extends Dexie {
+  todoTasks!: Table<Task, number>;
+  todoLists!: Table<List, number>;
 
-
-export const db=new TodoDB()
-db.on('populate', populate);
-
-
-export function resetDatabase() {
-    return db.transaction('rw', db.todoLists, db.todoTasks, async () => {
-      await Promise.all(db.tables.map(table => table.clear()));
-      await populate();
+  constructor() {
+    super("TodoDB");
+    this.version(1).stores({
+      todoLists: "++id",
+      todoTasks: "++id, todoListId",
     });
   }
 
+  deleteList(todoListId: number) {
+    return this.transaction("rw", this.todoTasks, this.todoLists, () => {
+      this.todoTasks.where({ todoListId }).delete();
+      this.todoLists.delete(todoListId);
+    });
+  }
+  updateListName(listId:number,updatedName:string){
+db.todoLists.update(listId,{name:updatedName})
+  }
+  deleteTask(taskId: number) {
+    db.todoTasks.delete(taskId);
+  }
+}
 
+export const db = new TodoDB();
+db.on("populate", populate);
+
+export function resetDatabase() {
+  return db.transaction("rw", db.todoLists, db.todoTasks, async () => {
+    await Promise.all(db.tables.map((table) => table.clear()));
+    await populate();
+  });
+}
 
 // const db = new Dexie('TasksDatabase') as Dexie & {
 //   tasks: EntityTable<
