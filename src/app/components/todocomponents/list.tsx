@@ -78,6 +78,15 @@ export default function TaskComponent(props: ListProps) {
             Today {taskByList("Today", props.tasks)}
           </p>
         </Button>
+        <Button
+          onClick={() => props.onClick("Today")}
+          variant={props.slectedList == "Today" ? "default" : "outline"}
+          className="h-10 border rounded-md"
+        >
+          <p className="px-4 py-2 text-sm">
+            Next 7 days {taskByList("Today", props.tasks)}
+          </p>
+        </Button>
         {props.lists.map((List, index) => (
           <Button
             onClick={() => props.onClick(List)}
@@ -91,6 +100,7 @@ export default function TaskComponent(props: ListProps) {
               className=" h-4 w-4 mx-2 "
             />
             <Dialog
+            
 
               onOpenChange={(op) => {
                 if (op) {
@@ -102,8 +112,8 @@ export default function TaskComponent(props: ListProps) {
               <DialogTrigger >
                 <span>Rename</span>
               </DialogTrigger>
-              <DialogContent>
-                <div className="flex gap-2 w-80  justify-between">
+              <DialogContent className="">
+                <div className="flex gap-2 w-full p-4  justify-between">
                   <Input
                     onChange={handleRenameInputChange}
                     className="w-full"
