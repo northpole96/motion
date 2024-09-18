@@ -2,21 +2,24 @@ import type { List, Task } from "@/app/models/db";
 export interface ListProps {
   lists: List[];
   tasks: Task[];
-  slectedList: List | "All" | "Today";
-  onClick: (param: List | "All" | "Today") => void;
+  slectedList: List | "All" | "Today"|"Completed";
+  onClick: (param: List | "All" | "Today"|"Completed") => void;
 }
 export interface TaskProps {
   tasks: Task[];
   lists: List[];
-  slectedList: List | "All" | "Today";
+  slectedList: List | "All" | "Today"|"Completed";
 }
 
 export function taskByList(
-  lists: List | "All" | "Today",
+  lists: List | "All" | "Today" | "Completed",
   tasks: Task[]
 ): number {
   if (lists == "All") {
     return tasks.length;
+  } else if ((lists = "Completed")) {
+    const completedTasks=tasks.filter((task)=>task.isCOmpleted==true)
+    return completedTasks.length;
   } else if (lists == "Today") {
     const todaytasks = tasks.filter(
       (task) =>

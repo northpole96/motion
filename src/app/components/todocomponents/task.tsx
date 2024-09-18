@@ -8,6 +8,8 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   Command,
   CommandEmpty,
@@ -29,6 +31,8 @@ export default function TaskComponent(props: TaskProps) {
   const [taskName, setTaskName] = useState("");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<List | undefined>(undefined);
+  const [isComplete,setIsComplete]=useState(false)
+
   const dropDownArray = props.lists.map((x) => {
     value: x;
     label: x.name;
@@ -39,7 +43,11 @@ export default function TaskComponent(props: TaskProps) {
   function filter(task: Task): boolean {
     if (props.slectedList == "All") {
       return true;
-    } else if (
+    } 
+  else if(props.slectedList=="Completed"){
+    return task.isCOmpleted
+  }
+    else if (
       props.slectedList == "Today" &&
       task.dateAdded?.getFullYear()! === new Date().getFullYear() &&
       task.dateAdded?.getMonth()! === new Date().getMonth() &&
@@ -140,6 +148,7 @@ export default function TaskComponent(props: TaskProps) {
               name: taskName,
               todoListId: value?.id!,
               dateAdded: date,
+              isCOmpleted:false
             });
 
             // toast(taskName + " added");
@@ -153,7 +162,13 @@ export default function TaskComponent(props: TaskProps) {
       </div>
       <div className="flex flex-col gap-2  w-[600px] pt-2">
         {props.tasks.filter(filter).map((task, index) => (
-          <div className="h-10 border rounded-md " onClick={()=>db.deleteTask(task.id!)}>
+          <div
+            className="h-10 border rounded-md  flex items-center px-2"
+            // onClick={
+            //   () => db.deleteTask(task.id!)
+            // }
+          >
+            <Checkbox checked={task.isCOmpleted} onCheckedChange={(value)=>{if(typeof value=='boolean'){ db.updateTaskCompletion(task.id!,value)}}}/>
             <p className="px-4 py-2 text-sm">{task.name}</p>
           </div>
         ))}

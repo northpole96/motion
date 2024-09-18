@@ -87,6 +87,15 @@ export default function TaskComponent(props: ListProps) {
             Next 7 days {taskByList("Today", props.tasks)}
           </p>
         </Button>
+        <Button
+          onClick={() => props.onClick("Completed")}
+          variant={props.slectedList == "Completed" ? "default" : "outline"}
+          className="h-10 border rounded-md"
+        >
+          <p className="px-4 py-2 text-sm">
+            Completed {taskByList("Today", props.tasks)}
+          </p>
+        </Button>
         {props.lists.map((List, index) => (
           <Button
             onClick={() => props.onClick(List)}

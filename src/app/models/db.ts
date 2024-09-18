@@ -7,6 +7,7 @@ export interface Task {
   name: string;
   todoListId: number;
   dateAdded?: Date;
+  isCOmpleted:boolean;
 }
 export interface List {
   id?: number;
@@ -33,6 +34,9 @@ export class TodoDB extends Dexie {
   }
   updateListName(listId:number,updatedName:string){
 db.todoLists.update(listId,{name:updatedName})
+  }
+  updateTaskCompletion(taskId:number,isCOmpletedd:boolean){
+db.todoTasks.update(taskId,{isCOmpleted:isCOmpletedd})
   }
   deleteTask(taskId: number) {
     db.todoTasks.delete(taskId);
