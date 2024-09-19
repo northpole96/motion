@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ListProps } from "@/app/components/types";
+import { inNext7Days, ListProps } from "@/app/components/types";
 import { db, List } from "@/app/models/db";
 import { Trash2, EllipsisVertical } from "lucide-react";
 import {
@@ -79,12 +79,12 @@ export default function TaskComponent(props: ListProps) {
           </p>
         </Button>
         <Button
-          onClick={() => props.onClick("Today")}
-          variant={props.slectedList == "Today" ? "default" : "outline"}
+          onClick={() => props.onClick("7 days")}
+          variant={props.slectedList == "7 days" ? "default" : "outline"}
           className="h-10 border rounded-md"
         >
           <p className="px-4 py-2 text-sm">
-            Next 7 days {taskByList("Today", props.tasks)}
+            Next 7 days {inNext7Days( props.tasks)}
           </p>
         </Button>
         <Button

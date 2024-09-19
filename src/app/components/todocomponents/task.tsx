@@ -54,7 +54,21 @@ export default function TaskComponent(props: TaskProps) {
       task.dateAdded?.getDate()! === new Date().getDate()
     ) {
       return true;
-    } else if (
+    }
+    else if(props.slectedList=="7 days"){
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const next7Days = new Date(today);
+      next7Days.setDate(today.getDate() + 7);
+
+        if (task.dateAdded == undefined) {
+          return false;
+        } else {
+          return task.dateAdded >= today && task.dateAdded <= next7Days;
+        }
+     
+    }
+     else if (
       typeof props.slectedList == "object" &&
       props.slectedList.id == task.todoListId
     ) {
